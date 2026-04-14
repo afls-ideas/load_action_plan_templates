@@ -4,9 +4,10 @@
 // =============================================================================
 
 // Step 1: Create Action Plan Template
+String tmplUniqueName = 'My_Template_' + System.currentTimeMillis();
 ActionPlanTemplate tmpl = new ActionPlanTemplate(
-    Name = 'My Template',
-    UniqueName = 'My_Template_' + System.currentTimeMillis(),
+    Name = tmplUniqueName,
+    UniqueName = tmplUniqueName,
     ActionPlanType = 'Industries',
     TargetEntityType = 'Account',
     IsAdHocItemCreationEnabled = false
@@ -34,9 +35,7 @@ ActionPlanTemplateItem item = new ActionPlanTemplateItem(
 insert item;
 System.debug('Created ActionPlanTemplateItem: ' + item.Id);
 
-// Step 4: Create required field values for the Task item
-// Note: Task.ActivityDate is NOT set here — it is computed at runtime from the
-// Action Plan's StartDate. Only Subject and Priority are required.
+// Step 4: Create field values for the Task item
 insert new List<ActionPlanTemplateItemValue>{
     new ActionPlanTemplateItemValue(
         Name = 'Subject',
@@ -50,6 +49,27 @@ insert new List<ActionPlanTemplateItemValue>{
         ActionPlanTemplateItemId = item.Id,
         ItemEntityFieldName = 'Task.Priority',
         ValueLiteral = 'Normal',
+        IsActive = true
+    ),
+    new ActionPlanTemplateItemValue(
+        Name = 'ActivityDate',
+        ActionPlanTemplateItemId = item.Id,
+        ItemEntityFieldName = 'Task.ActivityDate',
+        ValueFormula = 'StartDate + 2',
+        IsActive = true
+    ),
+    new ActionPlanTemplateItemValue(
+        Name = 'IsReminderSet',
+        ActionPlanTemplateItemId = item.Id,
+        ItemEntityFieldName = 'Task.IsReminderSet',
+        ValueLiteral = 'false',
+        IsActive = true
+    ),
+    new ActionPlanTemplateItemValue(
+        Name = 'ReminderDateTime',
+        ActionPlanTemplateItemId = item.Id,
+        ItemEntityFieldName = 'Task.ReminderDateTime',
+        ValueFormula = 'StartDate + 2 - 0 +',
         IsActive = true
     )
 };
