@@ -1,5 +1,7 @@
 # Load Action Plan Templates
 
+![Action Plan Template Example](assets/action_plan_template_example.png)
+
 Run the anonymous Apex script in this repo to understand how Action Plan Templates are structured and loaded via the Salesforce backend API. The script walks through the full lifecycle: creating a template, adding items, **publishing** (by setting the _version_ status to `Final` — not the template status, which is read-only), and generating an Action Plan against a random PersonAccount.
 
 A common gotcha is attempting to publish by updating `ActionPlanTemplate.Status` directly — this field is **not writable**. The correct approach is to update `ActionPlanTemplateVersion.Status` to `Final`, which automatically propagates to the parent template.
