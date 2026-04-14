@@ -21,7 +21,7 @@ sf apex run --file scripts/create_action_plan_template.apex
 1. **Creates an `ActionPlanTemplate`** with `ActionPlanType = 'Industries'` and `TargetEntityType = 'Account'`
 2. **Queries the auto-created `ActionPlanTemplateVersion`** — the platform creates Version 1 automatically on template insert; do NOT insert a version manually
 3. **Creates an `ActionPlanTemplateItem`** (Task type) on the version
-4. **Creates `ActionPlanTemplateItemValue` records** for required Task fields (`Subject`, `Priority`)
+4. **Creates `ActionPlanTemplateItemValue` records** for Task fields (`Subject`, `Priority`, `ActivityDate`, `IsReminderSet`, `ReminderDateTime`)
 5. **Publishes the template** by setting `ActionPlanTemplateVersion.Status = 'Final'`
 6. **Selects a random PersonAccount** and creates an `ActionPlan` against it
 
@@ -91,7 +91,7 @@ flowchart TD
 | Version is auto-created | Inserting a second version throws `INVALID_INPUT` |
 | Template.Status is read-only | Control status via the *version*, not the template |
 | Items required before publish | Publishing with zero items fails with `FIELD_INTEGRITY_EXCEPTION` |
-| Task.ActivityDate | NOT settable via `ActionPlanTemplateItemValue` — computed at runtime from the Action Plan's `StartDate` |
+| Task.ActivityDate | Set via `ValueFormula` (e.g. `StartDate + 2`) — required for items to display on the template's Items tab |
 | Status transitions are one-way | `Draft → Final → Obsolete` — cannot revert from Final to Draft |
 | Published versions are immutable | Cannot add/update/delete items on a Final version |
 | ActionPlanType values | `Industries`, `Retail`, `KAM` — LSC uses `Industries` for standard plans and `KAM` (Key Account Management) for KAM plans |
