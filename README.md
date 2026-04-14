@@ -4,6 +4,8 @@ Run the anonymous Apex script in this repo to understand how Action Plan Templat
 
 A common gotcha is attempting to publish by updating `ActionPlanTemplate.Status` directly — this field is **not writable**. The correct approach is to update `ActionPlanTemplateVersion.Status` to `Final`, which automatically propagates to the parent template.
 
+> **Looking for ready-made templates?** See [EXAMPLES.md](EXAMPLES.md) for 40 pre-built Action Plan Templates across 4 Life Sciences personas (Field Sales Rep, MSL, KAM, Field Reimbursement Manager).
+
 ## Prerequisites
 
 - Salesforce CLI (`sf`) authenticated to your target org
